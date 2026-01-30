@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Think Carefully 😌</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff4d6d, #ffb3c6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    width: 340px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    position: relative;
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+p {
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.counter {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    position: relative;
+    height: 90px;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+#yesBtn {
+    background: #ff4d6d;
+    color: white;
+}
+
+#noBtn {
+    background: #ddd;
+    position: absolute;
+    left: 180px;
+}
+
+/* Glitch */
+.glitch {
+    animation: glitch 0.2s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+    100% { transform: translate(0); }
+}
+
+/* Hearts */
+.heart {
+    position: fixed;
+    font-size: 22px;
+    animation: float 2s linear forwards;
+}
+
+@keyframes float {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Pop sound only -->
+<audio id="popSound" src="https://www.myinstants.com/media/sounds/pop-cat.mp3"></audio>
+
+<div class="card" id="card">
+    <div class="counter" id="counter">
+        Kgosi tried to say no: 0 times
+    </div>
+
+    <h1>Kgosi 😌</h1>
+
+    <h1>Will you be my Valentine? 💘</h1>
+
+    <div class="buttons">
+        <button id="yesBtn">Yes (obviously)</button>
+        <button id="noBtn">No 😈</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const card = document.getElementById("card");
+const counterText = document.getElementById("counter");
+const popSound = document.getElementById("popSound");
+
+let noCount = 0;
+
+// Hover = attempt
+noBtn.addEventListener("mouseover", () => {
+    noCount++;
+    counterText.innerText = `Kgosi tried to say no: ${noCount} times`;
+
+    noBtn.classList.add("glitch");
+
+    const x = Math.random() * 240 - 120;
+    const y = Math.random() * 80 - 40;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    setTimeout(() => {
+        noBtn.classList.remove("glitch");
+    }, 300);
+});
+
+// Click No = fake page
+noBtn.addEventListener("click", () => {
+    card.innerHTML = `
+        <h1>No accepted 💔</h1>
+        <p>Processing rejection...</p>
+    `;
+
+    setTimeout(() => {
+        card.innerHTML = `
+            <h1>Just kidding 😌💖</h1>
+            <p>
+                Did you really think I’d let you say no?
+                <br><br>
+                Try again.
+            </p>
+            <button id="resetBtn">Continue</button>
+        `;
+
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            location.reload();
+        });
+    }, 1500);
+});
+
+// Yes = success
+yesBtn.addEventListener("click", () => {
+    popSound.play();
+
+    card.innerHTML = `
+        <h1>AS EXPECTED 💘</h1>
+        <p>
+            I love you so much😌<br>
+          
+        </p>
+    `;
+
+    for (let i = 0; i < 40; i++) {
+        createHeart();
+    }
+});
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.bottom = "0px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 2000);
+}
+</script>
+
+</body>
+</html>
